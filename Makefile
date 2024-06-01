@@ -1,5 +1,3 @@
-
-```makefile
 CXX = g++
 CXXFLAGS = -Wall -I/usr/include/libisofs -I/usr/include/libburn
 LDFLAGS = -lisofs -lburn
