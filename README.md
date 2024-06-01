@@ -47,10 +47,17 @@ make
 ```sh
 ./burnX burn /dev/sr0 image.iso
 ```
+
 ### Copy to USB Device
 
 ```sh
 ./burnX usb input.txt /dev/sdX
+```
+
+### Burn DMG to USB or CD/DVD
+
+```sh
+./burnX dmg image.dmg /dev/sdX
 ```
 
 ## Requirements 🗃️
