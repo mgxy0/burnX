@@ -1,11 +1,11 @@
 CXX = g++
-CXXFLAGS = -Wall -I/usr/include/libisofs -I/usr/include/libburn
-LDFLAGS = -lisofs -lburn
+CXXFLAGS = -Wall -std=c++11
+LIBS = -lisofs -lburn
 
 all: burnX
 
 burnX: main.o functions.o
-	$(CXX) -o burnX main.o functions.o $(LDFLAGS)
+	$(CXX) $(CXXFLAGS) -o burnX main.o functions.o $(LIBS)
 
 main.o: main.cpp functions.h
 	$(CXX) $(CXXFLAGS) -c main.cpp
