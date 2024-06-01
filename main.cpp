@@ -12,12 +12,19 @@ void print_usage(const char *prog_name) {
     std::cerr << "  usb <input_file> <usb_device> [block_size] [count] [skip] [seek]\n";
     std::cerr << "  dmg <image_file> <device>\n";
     std::cerr << "  installmedia <installer_path> <volume>\n";
+    std::cerr << "Options:\n";
+    std::cerr << "  -h, --help    Show this help message\n";
 }
 
 int main(int argc, char *argv[]) {
     if (argc < 2) {
         print_usage(argv[0]);
         exit(EXIT_FAILURE);
+    }
+
+    if (strcmp(argv[1], "-h") == 0 || strcmp(argv[1], "--help") == 0) {
+        print_usage(argv[0]);
+        exit(EXIT_SUCCESS);
     }
 
     if (strcmp(argv[1], "copy") == 0) {
