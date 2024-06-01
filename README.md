@@ -12,7 +12,7 @@
 
 ## Installation 📦
 
-### Prerequisites
+### Prerequisites 🔣
 
 Install the necessary libraries:
 
@@ -30,39 +30,47 @@ Clone the repository and compile the program:
 
 ## Usage 🚀
 
-### Copy and Convert Files
+### Copy and Convert Files 📑
 
   ```sh
   ./burnX copy input.txt output.txt
   ```
 
-### Create ISO Image
+### Create ISO Image 💽
 
   ```sh
   ./burnX iso /path/to/source output.iso
   ```
 
-### Burn ISO to CD/DVD
+### Burn ISO to CD/DVD 🎇
 
   ```sh
   ./burnX burn /dev/sr0 image.iso
   ```
 
-### Copy to USB Device
+### Copy to USB Device 🔌
+
 
   ```sh
   ./burnX usb input.txt /dev/sdX
   ```
 
-### Burn DMG to USB or CD/DVD
+### Burn DMG to USB or CD/DVD 🎆
 
   ```sh
   ./burnX dmg image.dmg /dev/sdX
   ```
 
+### Burn .app to USB 🌋
+
+  ```sh
+  ./burnX app /path/to/source.app output.dmg VolumeName
+  ```
+
 ## Requirements 🗃️
 
 - MacOS or Linux
+- hdiutil, createinstallmedia, Xcode Command Line Tools (only in MacOS)
 - libisosofs-dev, libburn-dev
 
 ## License 📄
