@@ -34,7 +34,7 @@ MacOS  
 Clone the repository and compile the program:
 
   ```sh
-  git clone https://github.com/yourusername/burnX.git
+  git clone https://github.com/mgxy0/burnX.git
   cd burnX
   make
   ```
