@@ -63,8 +63,10 @@ Clone the repository and compile the program:
 
 ### Burn .app to USB 🌋
 
+The burnX installmedia command allows you to create a boot drive for installing macOS using the macOS installer application downloaded from the Mac App Store. This command formats the USB drive as HFS+ and copies the macOS installer to the drive, making it bootable. For example for Bigsur:
+
   ```sh
-  ./burnX app /path/to/source.app output.dmg VolumeName
+  sudo ./burnX installmedia /Applications/Install\ macOS\ Big\ Sur.app /Volumes/MyVolume
   ```
 
 ## Requirements 🗃️
