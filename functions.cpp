@@ -63,7 +63,6 @@ void create_iso(const char *source_dir, const char *output_file) {
     struct iso_write_opts *opts = iso_write_opts_new();
     struct iso_tree_node *root = iso_tree_node_new("root");
 
-    // Add files from source_dir to root
     iso_tree_add_dir(root, source_dir, nullptr);
 
     struct iso_image *image = iso_image_new(opts);
@@ -105,34 +104,14 @@ void create_app_image(const char *source_dir, const char *output_file, const cha
     #ifdef __APPLE__
     char command[1024];
 
-    // Create an empty disk image
     snprintf(command, sizeof(command), "hdiutil create -size %dm -fs HFS+ -volname %s -ov %s", size_mb, volume_name, output_file);
     if (system(command) != 0) {
         std::cerr << "Failed to create disk image" << std::endl;
         return;
     }
 
-    // Mount the disk image
     snprintf(command, sizeof(command), "hdiutil attach %s -mountpoint /Volumes/%s", output_file, volume_name);
     if (system(command) != 0) {
         std::cerr << "Failed to mount disk image" << std::endl;
         return;
     }
-
-    // Copy files to the mounted image
-    snprintf(command, sizeof(command), "rsync -av %s /Volumes/%s", source_dir, volume_name);
-    if (system(command) != 0) {
-        std::cerr << "Failed to copy files to disk image" << std::endl;
-        return;
-    }
-
-    // Unmount the disk image
-    snprintf(command, sizeof(command), "hdiutil detach /Volumes/%s", volume_name);
-    if (system(command) != 0) {
-        std::cerr << "Failed to unmount disk image" << std::endl;
-        return;
-    }
-    #else
-    std::cerr << "create_app_image is only supported on macOS." << std::endl;
-    #endif
-}
