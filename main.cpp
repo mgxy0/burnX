@@ -11,7 +11,6 @@ void print_usage(const char *prog_name) {
     std::cerr << "  burn <device> <image_file>\n";
     std::cerr << "  usb <input_file> <usb_device> [block_size] [count] [skip] [seek]\n";
     std::cerr << "  dmg <image_file> <device>\n";
-    std::cerr << "  app <source_dir> <output_file> <volume_name> <size_mb>\n";
     std::cerr << "  installmedia <installer_path> <volume>\n";
 }
 
@@ -74,17 +73,6 @@ int main(int argc, char *argv[]) {
         const char *device = argv[3];
 
         burn_dmg(image_file, device);
-    } else if (strcmp(argv[1], "app") == 0) {
-        if (argc < 6) {
-            print_usage(argv[0]);
-            exit(EXIT_FAILURE);
-        }
-        const char *source_dir = argv[2];
-        const char *output_file = argv[3];
-        const char *volume_name = argv[4];
-        int size_mb = std::atoi(argv[5]);
-
-        create_app_image(source_dir, output_file, volume_name, size_mb);
     } else if (strcmp(argv[1], "installmedia") == 0) {
         if (argc < 4) {
             print_usage(argv[0]);
