@@ -12,6 +12,7 @@ void print_usage(const char *prog_name) {
     std::cerr << "  usb <input_file> <usb_device> [block_size] [count] [skip] [seek]\n";
     std::cerr << "  dmg <image_file> <device>\n";
     std::cerr << "  app <source_dir> <output_file> <volume_name> <size_mb>\n";
+    std::cerr << "  installmedia <installer_path> <volume>\n";
 }
 
 int main(int argc, char *argv[]) {
@@ -84,6 +85,15 @@ int main(int argc, char *argv[]) {
         int size_mb = std::atoi(argv[5]);
 
         create_app_image(source_dir, output_file, volume_name, size_mb);
+    } else if (strcmp(argv[1], "installmedia") == 0) {
+        if (argc < 4) {
+            print_usage(argv[0]);
+            exit(EXIT_FAILURE);
+        }
+        const char *installer_path = argv[2];
+        const char *volume = argv[3];
+
+        create_install_media(installer_path, volume);
     } else {
         std::cerr << "Unknown command: " << argv[1] << "\n";
         print_usage(argv[0]);
