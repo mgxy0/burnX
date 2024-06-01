@@ -1,6 +1,6 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+#include <iostream>
+#include <fstream>
+#include <cstring>
 #include <fcntl.h>
 #include <unistd.h>
 #include <libisofs/libisofs.h>
@@ -21,8 +21,8 @@ void copy_file(const char *input_file, const char *output_file, int block_size, 
         exit(EXIT_FAILURE);
     }
 
-    char *buffer = malloc(block_size);
-    if (buffer == NULL) {
+    char *buffer = new char[block_size];
+    if (buffer == nullptr) {
         perror("Failed to allocate buffer");
         close(input_fd);
         close(output_fd);
@@ -48,7 +48,7 @@ void copy_file(const char *input_file, const char *output_file, int block_size, 
         }
     }
 
-    free(buffer);
+    delete[] buffer;
     close(input_fd);
     close(output_fd);
 }
@@ -58,13 +58,13 @@ void create_iso(const char *source_dir, const char *output_file) {
     struct iso_tree_node *root = iso_tree_node_new("root");
 
     // Add files from source_dir to root
-    iso_tree_add_dir(root, source_dir, NULL);
+    iso_tree_add_dir(root, source_dir, nullptr);
 
     struct iso_image *image = iso_image_new(opts);
     iso_image_set_root(image, root);
 
     struct burn_source *burn_source = burn_fd_source_new(open(output_file, O_WRONLY | O_CREAT, 0644));
-    struct burn_drive *drive = NULL;
+    struct burn_drive *drive = nullptr;
     struct burn_write_opts *write_opts = burn_write_opts_new(drive);
 
     burn_write_image(write_opts, burn_source, image);
