@@ -16,8 +16,16 @@
 
 Install the necessary libraries:
 
+  - libisofs : https://dev.lovelyhq.com/libburnia/libisofs
+  - libburn : https://dev.lovelyhq.com/libburnia/libburn
+
+Linux
   ```sh
   sudo apt-get install libisofs-dev libburn-dev
+  ```
+MacOS
+ ```sh
+  brew install libisofs libburn
   ```
 
 Clone the repository and compile the program:
