@@ -1,45 +1,22 @@
-
-# Compiled object files
 *.o
-*.lo
-*.la
-*.al
-*.libs
 *.so
-*.so.*
-*.dylib
-*.dll
 *.a
-*.lib
-
-# Compiled source files
-*.com
-*.class
-*.dll
-*.exe
-*.o
-*.so
-
-# Packages
-*.7z
-*.dmg
-*.gz
-*.iso
-*.jar
-*.rar
-*.tar
-*.zip
-
-# Logs and databases
-*.log
-*.sql
-*.sqlite
-
-# OS generated files
+burnX
+/build
 .DS_Store
-.DS_Store?
+.AppleDouble
+.LSOverride
 ._*
+.DocumentRevisions-V100
+.fseventsd
 .Spotlight-V100
+.TemporaryItems
 .Trashes
-ehthumbs.db
-Thumbs.db
+.VolumeIcon.icns
+.com.apple.timemachine.donotpresent
+.apple
+.AppleDB
+.AppleDesktop
+Network Trash Folder
+Temporary Items
+.apdisk
