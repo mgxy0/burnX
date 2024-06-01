@@ -3,9 +3,15 @@
 #include <cstring>
 #include <fcntl.h>
 #include <unistd.h>
+#include <sys/stat.h>
+#include <sys/mount.h>
 #include <libisofs/libisofs.h>
 #include <libburn/libburn.h>
 #include "functions.h"
+
+#ifdef __APPLE__
+#include <TargetConditionals.h>
+#endif
 
 void copy_file(const char *input_file, const char *output_file, int block_size, int count, int skip, int seek) {
     int input_fd = open(input_file, O_RDONLY);
@@ -93,4 +99,40 @@ void burn_cd_dvd(const char *device, const char *image) {
 
 void burn_dmg(const char *image_file, const char *device) {
     copy_file(image_file, device, 512, 0, 0, 0);
+}
+
+void create_app_image(const char *source_dir, const char *output_file, const char *volume_name, int size_mb) {
+    #ifdef __APPLE__
+    char command[1024];
+
+    // Create an empty disk image
+    snprintf(command, sizeof(command), "hdiutil create -size %dm -fs HFS+ -volname %s -ov %s", size_mb, volume_name, output_file);
+    if (system(command) != 0) {
+        std::cerr << "Failed to create disk image" << std::endl;
+        return;
+    }
+
+    // Mount the disk image
+    snprintf(command, sizeof(command), "hdiutil attach %s -mountpoint /Volumes/%s", output_file, volume_name);
+    if (system(command) != 0) {
+        std::cerr << "Failed to mount disk image" << std::endl;
+        return;
+    }
+
+    // Copy files to the mounted image
+    snprintf(command, sizeof(command), "rsync -av %s /Volumes/%s", source_dir, volume_name);
+    if (system(command) != 0) {
+        std::cerr << "Failed to copy files to disk image" << std::endl;
+        return;
+    }
+
+    // Unmount the disk image
+    snprintf(command, sizeof(command), "hdiutil detach /Volumes/%s", volume_name);
+    if (system(command) != 0) {
+        std::cerr << "Failed to unmount disk image" << std::endl;
+        return;
+    }
+    #else
+    std::cerr << "create_app_image is only supported on macOS." << std::endl;
+    #endif
 }
