@@ -115,3 +115,19 @@ void create_app_image(const char *source_dir, const char *output_file, const cha
         std::cerr << "Failed to mount disk image" << std::endl;
         return;
     }
+
+    snprintf(command, sizeof(command), "rsync -av %s /Volumes/%s", source_dir, volume_name);
+    if (system(command) != 0) {
+        std::cerr << "Failed to copy files to disk image" << std::endl;
+        return;
+    }
+
+    snprintf(command, sizeof(command), "hdiutil detach /Volumes/%s", volume_name);
+    if (system(command) != 0) {
+        std::cerr << "Failed to unmount disk image" << std::endl;
+        return;
+    }
+    #else
+    std::cerr << "create_app_image is only supported on macOS." << std::endl;
+    #endif
+}
