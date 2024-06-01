@@ -39,7 +39,7 @@ Clone the repository and compile the program:
   make
   ```
 
-## Usage 🚀
+## Usage ⚙️
 
 ### Copy and Convert Files 🔂
 
