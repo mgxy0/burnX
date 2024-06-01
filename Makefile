@@ -1,18 +1,21 @@
 
-CC = gcc
-CFLAGS = -Wall -I/usr/include/libisofs -I/usr/include/libburn
+#### Makefile
+
+```makefile
+CXX = g++
+CXXFLAGS = -Wall -I/usr/include/libisofs -I/usr/include/libburn
 LDFLAGS = -lisofs -lburn
 
 all: burnX
 
 burnX: main.o functions.o
-	$(CC) -o burnX main.o functions.o $(LDFLAGS)
+	$(CXX) -o burnX main.o functions.o $(LDFLAGS)
 
-main.o: main.c functions.h
-	$(CC) $(CFLAGS) -c main.c
+main.o: main.cpp functions.h
+	$(CXX) $(CXXFLAGS) -c main.cpp
 
-functions.o: functions.c functions.h
-	$(CC) $(CFLAGS) -c functions.c
+functions.o: functions.cpp functions.h
+	$(CXX) $(CXXFLAGS) -c functions.cpp
 
 clean:
 	rm -f burnX *.o
