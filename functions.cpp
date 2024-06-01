@@ -1,167 +1,92 @@
 #include <iostream>
-#include <fstream>
+#include <cstdlib>
 #include <cstring>
-#include <fcntl.h>
-#include <unistd.h>
-#include <sys/stat.h>
-#include <sys/mount.h>
-#include <libisofs/libisofs.h>
-#include <libburn/libburn.h>
 #include "functions.h"
 
-#ifdef __APPLE__
-#include <TargetConditionals.h>
-#endif
+void print_usage(const char *prog_name) {
+    std::cerr << "Usage: " << prog_name << " <command> [options]\n";
+    std::cerr << "Commands:\n";
+    std::cerr << "  copy <input_file> <output_file> [block_size] [count] [skip] [seek]\n";
+    std::cerr << "  iso <source_dir> <output_file>\n";
+    std::cerr << "  burn <device> <image_file>\n";
+    std::cerr << "  usb <input_file> <usb_device> [block_size] [count] [skip] [seek]\n";
+    std::cerr << "  dmg <image_file> <device>\n";
+    std::cerr << "  installmedia <installer_path> <volume>\n";
+}
 
-void copy_file(const char *input_file, const char *output_file, int block_size, int count, int skip, int seek) {
-    int input_fd = open(input_file, O_RDONLY);
-    if (input_fd < 0) {
-        perror("Failed to open input file");
+int main(int argc, char *argv[]) {
+    if (argc < 2) {
+        print_usage(argv[0]);
         exit(EXIT_FAILURE);
     }
 
-    int output_fd = open(output_file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-    if (output_fd < 0) {
-        perror("Failed to open output file");
-        close(input_fd);
-        exit(EXIT_FAILURE);
-    }
-
-    char *buffer = new char[block_size];
-    if (buffer == nullptr) {
-        perror("Failed to allocate buffer");
-        close(input_fd);
-        close(output_fd);
-        exit(EXIT_FAILURE);
-    }
-
-    lseek(input_fd, skip * block_size, SEEK_SET);
-    lseek(output_fd, seek * block_size, SEEK_SET);
-
-    for (int i = 0; i < count || count == 0; i++) {
-        ssize_t bytes_read = read(input_fd, buffer, block_size);
-        if (bytes_read < 0) {
-            perror("Failed to read input file");
-            break;
-        } else if (bytes_read == 0) {
-            break;  // End of file reached
+    if (strcmp(argv[1], "copy") == 0) {
+        if (argc < 4) {
+            print_usage(argv[0]);
+            exit(EXIT_FAILURE);
         }
+        const char *input_file = argv[2];
+        const char *output_file = argv[3];
+        int block_size = (argc > 4) ? std::atoi(argv[4]) : 512;
+        int count = (argc > 5) ? std::atoi(argv[5]) : 0;
+        int skip = (argc > 6) ? std::atoi(argv[6]) : 0;
+        int seek = (argc > 7) ? std::atoi(argv[7]) : 0;
 
-        ssize_t bytes_written = write(output_fd, buffer, bytes_read);
-        if (bytes_written < 0) {
-            perror("Failed to write output file");
-            break;
+        copy_file(input_file, output_file, block_size, count, skip, seek);
+    } else if (strcmp(argv[1], "iso") == 0) {
+        if (argc < 4) {
+            print_usage(argv[0]);
+            exit(EXIT_FAILURE);
         }
+        const char *source_dir = argv[2];
+        const char *output_file = argv[3];
+
+        create_iso(source_dir, output_file);
+    } else if (strcmp(argv[1], "burn") == 0) {
+        if (argc < 4) {
+            print_usage(argv[0]);
+            exit(EXIT_FAILURE);
+        }
+        const char *device = argv[2];
+        const char *image_file = argv[3];
+
+        burn_cd_dvd(device, image_file);
+    } else if (strcmp(argv[1], "usb") == 0) {
+        if (argc < 4) {
+            print_usage(argv[0]);
+            exit(EXIT_FAILURE);
+        }
+        const char *input_file = argv[2];
+        const char *usb_device = argv[3];
+        int block_size = (argc > 4) ? std::atoi(argv[4]) : 512;
+        int count = (argc > 5) ? std::atoi(argv[5]) : 0;
+        int skip = (argc > 6) ? std::atoi(argv[6]) : 0;
+        int seek = (argc > 7) ? std::atoi(argv[7]) : 0;
+
+        copy_file(input_file, usb_device, block_size, count, skip, seek);
+    } else if (strcmp(argv[1], "dmg") == 0) {
+        if (argc < 4) {
+            print_usage(argv[0]);
+            exit(EXIT_FAILURE);
+        }
+        const char *image_file = argv[2];
+        const char *device = argv[3];
+
+        burn_dmg(image_file, device);
+    } else if (strcmp(argv[1], "installmedia") == 0) {
+        if (argc < 4) {
+            print_usage(argv[0]);
+            exit(EXIT_FAILURE);
+        }
+        const char *installer_path = argv[2];
+        const char *volume = argv[3];
+
+        create_install_media(installer_path, volume);
+    } else {
+        std::cerr << "Unknown command: " << argv[1] << "\n";
+        print_usage(argv[0]);
+        exit(EXIT_FAILURE);
     }
 
-    delete[] buffer;
-    close(input_fd);
-    close(output_fd);
-}
-
-void create_iso(const char *source_dir, const char *output_file) {
-    struct iso_write_opts *opts = iso_write_opts_new();
-    struct iso_tree_node *root = iso_tree_node_new("root");
-
-    // Add files from source_dir to root
-    iso_tree_add_dir(root, source_dir, nullptr);
-
-    struct iso_image *image = iso_image_new(opts);
-    iso_image_set_root(image, root);
-
-    struct burn_source *burn_source = burn_fd_source_new(open(output_file, O_WRONLY | O_CREAT, 0644));
-    struct burn_drive *drive = nullptr;
-    struct burn_write_opts *write_opts = burn_write_opts_new(drive);
-
-    burn_write_image(write_opts, burn_source, image);
-
-    iso_image_unref(image);
-    iso_tree_node_unref(root);
-    iso_write_opts_unref(opts);
-}
-
-void burn_cd_dvd(const char *device, const char *image) {
-    struct burn_drive_info *drive_info;
-    struct burn_drive *drive;
-    struct burn_write_opts *opts;
-
-    burn_initialize();
-    burn_drive_scan(&drive_info, 0);
-
-    drive = burn_drive_grab(drive_info->drive, 1);
-    opts = burn_write_opts_new(drive);
-
-    struct burn_source *src = burn_fd_source_new(open(image, O_RDONLY));
-    burn_write_image(opts, src, drive);
-
-    burn_finish();
-}
-
-void burn_dmg(const char *image_file, const char *device) {
-    copy_file(image_file, device, 512, 0, 0, 0);
-}
-
-void create_app_image(const char *source_dir, const char *output_file, const char *volume_name, int size_mb) {
-    #ifdef __APPLE__
-    char command[1024];
-
-    // Create an empty disk image
-    snprintf(command, sizeof(command), "hdiutil create -size %dm -fs APFS -volname %s -ov %s", size_mb, volume_name, output_file);
-    if (system(command) != 0) {
-        std::cerr << "Failed to create disk image" << std::endl;
-        return;
-    }
-
-    // Mount the disk image
-    snprintf(command, sizeof(command), "hdiutil attach %s -mountpoint /Volumes/%s", output_file, volume_name);
-    if (system(command) != 0) {
-        std::cerr << "Failed to mount disk image" << std::endl;
-        return;
-    }
-
-    // Copy files to the mounted image
-    snprintf(command, sizeof(command), "cp -R %s /Volumes/%s/", source_dir, volume_name);
-    if (system(command) != 0) {
-        std::cerr << "Failed to copy files to disk image" << std::endl;
-        return;
-    }
-
-    // Unmount the disk image
-    snprintf(command, sizeof(command), "hdiutil detach /Volumes/%s", volume_name);
-    if (system(command) != 0) {
-        std::cerr << "Failed to unmount disk image" << std::endl;
-        return;
-    }
-
-    // Convert the disk image to read-only (optional)
-    snprintf(command, sizeof(command), "hdiutil convert %s -format UDZO -o %s_readonly.dmg", output_file, output_file);
-    if (system(command) != 0) {
-        std::cerr << "Failed to convert disk image to read-only" << std::endl;
-        return;
-    }
-    #else
-    std::cerr << "create_app_image is only supported on macOS." << std::endl;
-    #endif
-}
-
-void create_install_media(const char *installer_path, const char *volume) {
-    #ifdef __APPLE__
-    char command[1024];
-
-    // Format the volume as APFS
-    snprintf(command, sizeof(command), "diskutil eraseDisk APFS InstallerDisk %s", volume);
-    if (system(command) != 0) {
-        std::cerr << "Failed to format the volume as APFS" << std::endl;
-        return;
-    }
-
-    // Create install media
-    snprintf(command, sizeof(command), "sudo %s/Contents/Resources/createinstallmedia --volume %s", installer_path, volume);
-    if (system(command) != 0) {
-        std::cerr << "Failed to create install media" << std::endl;
-        return;
-    }
-    #else
-    std::cerr << "create_install_media is only supported on macOS." << std::endl;
-    #endif
+    return 0;
 }
