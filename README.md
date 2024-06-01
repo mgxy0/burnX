@@ -7,8 +7,8 @@
 ## Features 🛠️
 
 - Copy and convert files with specified block sizes and conversions
-- Burn ISO images to CD/DVD
-- Create ISO images from directories
+-  Burn ISO images to CD/DVD
+-   Create ISO images from directories
 
 ## Installation 📦
 
@@ -16,53 +16,54 @@
 
 Install the necessary libraries:
 
-```sh
-sudo apt-get install libisofs-dev libburn-dev
-```
+  ```sh
+  sudo apt-get install libisofs-dev libburn-dev
+  ```
 
 Clone the repository and compile the program:
 
-```sh
-git clone https://github.com/yourusername/burnX.git
-cd burnX
-make
-```
+  ```sh
+  git clone https://github.com/yourusername/burnX.git
+  cd burnX
+  make
+  ```
 
 ## Usage 🚀
 
 ### Copy and Convert Files
 
-```sh
-./burnX copy input.txt output.txt
-```
+  ```sh
+  ./burnX copy input.txt output.txt
+  ```
 
 ### Create ISO Image
 
-```sh
-./burnX iso /path/to/source output.iso
-```
+  ```sh
+  ./burnX iso /path/to/source output.iso
+  ```
 
 ### Burn ISO to CD/DVD
 
-```sh
-./burnX burn /dev/sr0 image.iso
-```
+  ```sh
+  ./burnX burn /dev/sr0 image.iso
+  ```
 
 ### Copy to USB Device
 
-```sh
-./burnX usb input.txt /dev/sdX
-```
+  ```sh
+  ./burnX usb input.txt /dev/sdX
+  ```
 
 ### Burn DMG to USB or CD/DVD
 
-```sh
-./burnX dmg image.dmg /dev/sdX
-```
+  ```sh
+  ./burnX dmg image.dmg /dev/sdX
+  ```
 
 ## Requirements 🗃️
 
-MacOS or Linux, C, gcc, libisosofs-dev, libburn-dev
+- MacOS or Linux
+- libisosofs-dev, libburn-dev
 
 ## License 📄
 
