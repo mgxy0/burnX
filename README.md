@@ -24,7 +24,7 @@ Linux 🐧
   ```sh
   sudo apt-get install libisofs-dev libburn-dev
   ```
-MacOS  
+MacOS   
  ```sh
   brew install libisofs libburn
   ```
@@ -57,7 +57,7 @@ Clone the repository and compile the program:
   ./burnX burn /dev/sr0 image.iso
   ```
 
-### Copy to USB Device 📥
+### Copy to USB Device ⏏️
 
   ```sh
   ./burnX usb input.txt /dev/sdX
@@ -69,7 +69,7 @@ Clone the repository and compile the program:
   ./burnX dmg image.dmg /dev/sdX
   ```
 
-### Burn .app to USB 🌋
+### Burn .app to USB 🖥️
 
 The burnX installmedia command allows you to create a boot drive for installing macOS using the macOS installer application downloaded from the Mac App Store. This command formats the USB drive as APFS and copies the macOS installer to the drive, making it bootable. For example for Bigsur:
 
