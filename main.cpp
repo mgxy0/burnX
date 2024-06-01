@@ -1,16 +1,16 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+#include <iostream>
+#include <cstdlib>
+#include <cstring>
 #include "functions.h"
 
 void print_usage(const char *prog_name) {
-    fprintf(stderr, "Usage: %s <command> [options]\n", prog_name);
-    fprintf(stderr, "Commands:\n");
-    fprintf(stderr, "  copy <input_file> <output_file> [block_size] [count] [skip] [seek]\n");
-    fprintf(stderr, "  iso <source_dir> <output_file>\n");
-    fprintf(stderr, "  burn <device> <image_file>\n");
-    fprintf(stderr, "  usb <input_file> <usb_device> [block_size] [count] [skip] [seek]\n");
-    fprintf(stderr, "  dmg <image_file> <device>\n");
+    std::cerr << "Usage: " << prog_name << " <command> [options]\n";
+    std::cerr << "Commands:\n";
+    std::cerr << "  copy <input_file> <output_file> [block_size] [count] [skip] [seek]\n";
+    std::cerr << "  iso <source_dir> <output_file>\n";
+    std::cerr << "  burn <device> <image_file>\n";
+    std::cerr << "  usb <input_file> <usb_device> [block_size] [count] [skip] [seek]\n";
+    std::cerr << "  dmg <image_file> <device>\n";
 }
 
 int main(int argc, char *argv[]) {
@@ -26,10 +26,10 @@ int main(int argc, char *argv[]) {
         }
         const char *input_file = argv[2];
         const char *output_file = argv[3];
-        int block_size = (argc > 4) ? atoi(argv[4]) : 512;
-        int count = (argc > 5) ? atoi(argv[5]) : 0;
-        int skip = (argc > 6) ? atoi(argv[6]) : 0;
-        int seek = (argc > 7) ? atoi(argv[7]) : 0;
+        int block_size = (argc > 4) ? std::atoi(argv[4]) : 512;
+        int count = (argc > 5) ? std::atoi(argv[5]) : 0;
+        int skip = (argc > 6) ? std::atoi(argv[6]) : 0;
+        int seek = (argc > 7) ? std::atoi(argv[7]) : 0;
 
         copy_file(input_file, output_file, block_size, count, skip, seek);
     } else if (strcmp(argv[1], "iso") == 0) {
@@ -57,10 +57,10 @@ int main(int argc, char *argv[]) {
         }
         const char *input_file = argv[2];
         const char *usb_device = argv[3];
-        int block_size = (argc > 4) ? atoi(argv[4]) : 512;
-        int count = (argc > 5) ? atoi(argv[5]) : 0;
-        int skip = (argc > 6) ? atoi(argv[6]) : 0;
-        int seek = (argc > 7) ? atoi(argv[7]) : 0;
+        int block_size = (argc > 4) ? std::atoi(argv[4]) : 512;
+        int count = (argc > 5) ? std::atoi(argv[5]) : 0;
+        int skip = (argc > 6) ? std::atoi(argv[6]) : 0;
+        int seek = (argc > 7) ? std::atoi(argv[7]) : 0;
 
         copy_file(input_file, usb_device, block_size, count, skip, seek);
     } else if (strcmp(argv[1], "dmg") == 0) {
@@ -73,7 +73,7 @@ int main(int argc, char *argv[]) {
 
         burn_dmg(image_file, device);
     } else {
-        fprintf(stderr, "Unknown command: %s\n", argv[1]);
+        std::cerr << "Unknown command: " << argv[1] << "\n";
         print_usage(argv[0]);
         exit(EXIT_FAILURE);
     }
