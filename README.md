@@ -33,7 +33,7 @@ make
 ### Copy and Convert Files
 
 ```sh
-./burnX copy input.txt output.txt [block_size] [count] [skip] [seek]
+./burnX copy input.txt output.txt
 ```
 
 ### Create ISO Image
@@ -50,7 +50,7 @@ make
 ### Copy to USB Device
 
 ```sh
-./burnX usb input.txt /dev/sdX [block_size] [count] [skip] [seek]
+./burnX usb input.txt /dev/sdX
 ```
 
 ## Requirements 🗃️
