@@ -2,7 +2,7 @@
 
 ![DALL·E-2024-06-01-12 49 10-Logo-design-for-burnX-featuring-a-burning-USB-key(1)](https://github.com/mgxy0/burnX/assets/127632468/3187aedd-d53f-4673-a936-1d9742a0beff)
 
-`burnX` is a C++ utility that mimics the functionality of `dd`, a Unix tool for copying and converting files, while adding capabilities to burn CD/DVDs and create ISO images. This tool is designed to be independent and does not rely on external libraries for core functionalities.
+`burnX` is a C++ utility that mimics the functionality of `dd`, a Unix tool for copying and converting files, while adding capabilities to burn CD/DVDs, create ISO images and create a install media for MacOS with .app files.
 
 ## Features 🛠️
 
