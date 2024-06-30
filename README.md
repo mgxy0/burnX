@@ -1,8 +1,6 @@
 # burnX  
 
-![image](https://github.com/mgxy0/burnX/assets/127632468/c6a0e497-c36b-41b2-8ef2-b444c20d6681)
-
-`burnX` is a C++ utility that mimics the functionality of `dd`, a Unix tool for copying and converting files, while adding capabilities to burn CD/DVDs, create ISO images and create a install media for MacOS with .app files.
+![image](https://github.com/mgxy0/burnX/assets/127632468/c6a0e497-c36b-41b2-8ef2-b444c20d6681) `burnX` is a C++ utility that mimics the functionality of `dd`, a Unix tool for copying and converting files, while adding capabilities to burn CD/DVDs, create ISO images and create a install media for MacOS with .app files.
 
 ## Features 🛠️
 
