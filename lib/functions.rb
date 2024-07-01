@@ -1,5 +1,3 @@
-# lib/functions.rb
-
 require 'fileutils'
 require 'open3'
 
