@@ -1,5 +1,3 @@
-# main.rb
-
 require 'bundler/setup'
 require 'gtk3'
 require_relative 'lib/functions'
@@ -49,21 +47,17 @@ class UtilityTool < Gtk::Window
     vbox.set_margin_right(20)
     add(vbox)
 
-    # Title and Logo
     title_hbox = Gtk::Box.new(:horizontal, 10)
     title_hbox.halign = Gtk::Align::CENTER
     vbox.pack_start(title_hbox, :expand => false, :fill => false, :padding => 5)
 
-    # Add image
     image = Gtk::Image.new(file: File.expand_path('assets/image.png', __dir__))
     title_hbox.pack_start(image, :expand => false, :fill => false, :padding => 5)
 
-    # Add title
     title = Gtk::Label.new("burnX")
     title.style_context.add_class("title")
     title_hbox.pack_start(title, :expand => true, :fill => true, :padding => 5)
 
-    # Input descriptions and fields
     desc_copy = Gtk::Label.new("Copies a file from the input location to the output location.")
     desc_copy.set_margin_top(10)
     desc_copy.halign = Gtk::Align::CENTER
@@ -157,7 +151,6 @@ class UtilityTool < Gtk::Window
     end
     button_hbox.pack_start(clear_button, :expand => false, :fill => false, :padding => 5)
 
-    # Create combo box for command selection
     combo = Gtk::ComboBoxText.new
     combo.append_text('copy')
     combo.append_text('iso')
@@ -168,7 +161,6 @@ class UtilityTool < Gtk::Window
     combo.set_margin_top(10)
     vbox.pack_start(combo, :expand => false, :fill => false, :padding => 5)
 
-    # Update description based on selected command
     combo.signal_connect "changed" do
       case combo.active_text
       when 'copy'
