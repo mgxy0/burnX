@@ -9,7 +9,7 @@
 -  Copy and convert files 
 -  Burn ISO images to CD/DVD
 -  Create ISO images from directories
--  Create a MacOS install media 
+-  Create a MacOS install media [only macos(require create_install_media)]
 
 ### Linux / MacOS 
 
