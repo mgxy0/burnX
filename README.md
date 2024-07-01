@@ -20,11 +20,11 @@ cd burnX
 ```
 -  Install Gems
 ```sh
-bundle install
+sudo bundle install
 ```
 -  Run burnX
 ```sh
-ruby main.rb
+sudo bundle exec ruby main.rb
 ```
 
 ## Requirements 🗃️
