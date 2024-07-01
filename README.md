@@ -9,9 +9,9 @@
 -  Copy and convert files 
 -  Burn ISO images to CD/DVD
 -  Create ISO images from directories
--  Create a MacOS install media [only macos(require create_install_media)]
+-  Create a MacOS install media [ only MacOS ( require create_install_media and .app installation file from appstore) ]
 
-### Linux / MacOS 
+### Linux 🐧 / MacOS 
 
 -  Import the ruby project :
 ```sh
@@ -27,6 +27,11 @@ bundle install
 ruby main.rb
 ```
 
+## Requirements 🗃️
+
+-  Ruby 🔻
+-  Gtk3 ❇️
+  
 ## License 📄
 
 GNU GPLv3 🐃
