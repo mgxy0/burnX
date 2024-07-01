@@ -72,7 +72,7 @@ class UtilityTool < Gtk::Window
       dialog = Gtk::FileChooserDialog.new(
         title: "Select Input File/Directory",
         parent: self,
-        action: Gtk::FileChooser::Action::OPEN,
+        action: Gtk::FileChooserAction::OPEN,
         buttons: [[Gtk::Stock::CANCEL, Gtk::ResponseType::CANCEL], [Gtk::Stock::OPEN, Gtk::ResponseType::ACCEPT]]
       )
       if dialog.run == Gtk::ResponseType::ACCEPT
@@ -97,7 +97,7 @@ class UtilityTool < Gtk::Window
       dialog = Gtk::FileChooserDialog.new(
         title: "Select Output File/Device",
         parent: self,
-        action: Gtk::FileChooser::Action::SAVE,
+        action: Gtk::FileChooserAction::SAVE,
         buttons: [[Gtk::Stock::CANCEL, Gtk::ResponseType::CANCEL], [Gtk::Stock::SAVE, Gtk::ResponseType::ACCEPT]]
       )
       if dialog.run == Gtk::ResponseType::ACCEPT
@@ -111,6 +111,16 @@ class UtilityTool < Gtk::Window
     button_hbox = Gtk::Box.new(:horizontal, 10)
     button_hbox.halign = Gtk::Align::CENTER
     vbox.pack_start(button_hbox, :expand => false, :fill => false, :padding => 10)
+
+    combo = Gtk::ComboBoxText.new
+    combo.append_text('copy')
+    combo.append_text('iso')
+    combo.append_text('burn')
+    combo.append_text('dmg')
+    combo.append_text('installmedia')
+    combo.active = 0
+    combo.set_margin_top(10)
+    vbox.pack_start(combo, :expand => false, :fill => false, :padding => 5)
 
     execute_button = Gtk::Button.new(label: "Execute")
     execute_button.signal_connect "clicked" do
@@ -150,16 +160,6 @@ class UtilityTool < Gtk::Window
       input2.text = ""
     end
     button_hbox.pack_start(clear_button, :expand => false, :fill => false, :padding => 5)
-
-    combo = Gtk::ComboBoxText.new
-    combo.append_text('copy')
-    combo.append_text('iso')
-    combo.append_text('burn')
-    combo.append_text('dmg')
-    combo.append_text('installmedia')
-    combo.active = 0
-    combo.set_margin_top(10)
-    vbox.pack_start(combo, :expand => false, :fill => false, :padding => 5)
 
     combo.signal_connect "changed" do
       case combo.active_text
