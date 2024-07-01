@@ -143,8 +143,36 @@ class UtilityTool < Gtk::Window
           burn_dmg(input1_text, input2_text)
           message_dialog("Success", "DMG burned successfully!")
         when 'installmedia'
-          create_install_media(input1_text, input2_text)
-          message_dialog("Success", "Install media created successfully!")
+          select_app_dialog = Gtk::FileChooserDialog.new(
+            title: "Select .app Installation File",
+            parent: self,
+            action: Gtk::FileChooserAction::OPEN,
+            buttons: [[Gtk::Stock::CANCEL, Gtk::ResponseType::CANCEL], [Gtk::Stock::OPEN, Gtk::ResponseType::ACCEPT]]
+          )
+          if select_app_dialog.run == Gtk::ResponseType::ACCEPT
+            app_file = select_app_dialog.filename
+            select_app_dialog.destroy
+
+            select_volume_dialog = Gtk::FileChooserDialog.new(
+              title: "Select Target Volume",
+              parent: self,
+              action: Gtk::FileChooserAction::SELECT_FOLDER,
+              buttons: [[Gtk::Stock::CANCEL, Gtk::ResponseType::CANCEL], [Gtk::Stock::OPEN, Gtk::ResponseType::ACCEPT]]
+            )
+            if select_volume_dialog.run == Gtk::ResponseType::ACCEPT
+              target_volume = select_volume_dialog.filename
+              select_volume_dialog.destroy
+
+              create_install_media(app_file, target_volume)
+              message_dialog("Success", "Install media created successfully!")
+            else
+              select_volume_dialog.destroy
+              message_dialog("Error", "No target volume selected.")
+            end
+          else
+            select_app_dialog.destroy
+            message_dialog("Error", "No .app file selected.")
+          end
         else
           message_dialog("Error", "Unknown command: #{command}")
         end
