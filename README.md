@@ -6,7 +6,7 @@
 
 ## Features 🛠️
 
--  Copy and convert files with specified block sizes and conversions
+-  Copy and convert files 
 -  Burn ISO images to CD/DVD
 -  Create ISO images from directories
 -  Create a MacOS install media 
