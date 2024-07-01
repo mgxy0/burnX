@@ -2,7 +2,7 @@
 
 <img width="642" alt="Screenshot 2024-07-01 alle 11 50 32" src="https://github.com/mgxy0/burnX/assets/127632468/06528a26-0d23-493d-bc7a-08460eb3de24">
 
-`burnX` is a Ruby utility that mimics the functionality of `dd`, a Unix tool for copying and converting files, while adding capabilities to burn CD/DVDs, create ISO images and create a install media for MacOS with .app files.
+`burnX` is a Ruby utility created with gtk3 that mimics the functionality of `dd`, a Unix tool for copying and converting files, while adding capabilities to burn CD/DVDs, create ISO images and create a install media for MacOS with .app files.
 
 ## Features 🛠️
 
