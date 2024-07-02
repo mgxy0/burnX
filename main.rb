@@ -131,16 +131,40 @@ class UtilityTool < Gtk::Window
       begin
         case command
         when 'copy'
-          copy_file(input1_text, input2_text)
+          if Functions.mac?
+            Functions.copy_file_mac(input1_text, input2_text)
+          elsif Functions.linux?
+            Functions.copy_file_linux(input1_text, input2_text)
+          else
+            raise "Unsupported operating system."
+          end
           message_dialog("Success", "File copied successfully!")
         when 'iso'
-          create_iso(input1_text, input2_text)
+          if Functions.mac?
+            Functions.create_iso_mac(input1_text, input2_text)
+          elsif Functions.linux?
+            Functions.create_iso_linux(input1_text, input2_text)
+          else
+            raise "Unsupported operating system."
+          end
           message_dialog("Success", "ISO created successfully!")
         when 'burn'
-          burn_cd_dvd(input1_text, input2_text)
+          if Functions.mac?
+            Functions.burn_cd_dvd_mac(input1_text, input2_text)
+          elsif Functions.linux?
+            Functions.burn_cd_dvd_linux(input1_text, input2_text)
+          else
+            raise "Unsupported operating system."
+          end
           message_dialog("Success", "CD/DVD burned successfully!")
         when 'dmg'
-          burn_dmg(input1_text, input2_text)
+          if Functions.mac?
+            Functions.burn_dmg_mac(input1_text, input2_text)
+          elsif Functions.linux?
+            Functions.burn_dmg_linux(input1_text, input2_text)
+          else
+            raise "Unsupported operating system."
+          end
           message_dialog("Success", "DMG burned successfully!")
         when 'installmedia'
           select_app_dialog = Gtk::FileChooserDialog.new(
@@ -163,7 +187,13 @@ class UtilityTool < Gtk::Window
               target_volume = select_volume_dialog.filename
               select_volume_dialog.destroy
 
-              create_install_media(app_file, target_volume)
+              if Functions.mac?
+                Functions.create_install_media_mac(app_file, target_volume)
+              elsif Functions.linux?
+                Functions.create_install_media_linux(app_file, target_volume)
+              else
+                raise "Unsupported operating system."
+              end
               message_dialog("Success", "Install media created successfully!")
             else
               select_volume_dialog.destroy
@@ -224,5 +254,6 @@ class UtilityTool < Gtk::Window
   end
 end
 
-window = UtilityTool.new
+win = UtilityTool.new
+win.show_all
 Gtk.main
