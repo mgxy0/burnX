@@ -45,7 +45,9 @@ sudo bundle exec ruby main.rb
 
 -  Ruby 🔻
 -  Gtk3 ❇️
+
 [ only Linux]
+
 -  Genisoimage
 -  Wodim
   
